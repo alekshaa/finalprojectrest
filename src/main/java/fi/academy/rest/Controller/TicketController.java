@@ -15,24 +15,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class ApiController {
-
+public class TicketController {
 
     private CourseRepository courseRepository;
     private UserRepository userRepository;
     private TicketRepository ticketRepository;
 
-    public ApiController(@Autowired CourseRepository courseRepository, @Autowired UserRepository userRepository, @Autowired TicketRepository ticketRepository) {
+    public TicketController(@Autowired CourseRepository courseRepository, @Autowired UserRepository userRepository, @Autowired TicketRepository ticketRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.ticketRepository = ticketRepository;
     }
 
+    // LIST ALL TICKETS
     @GetMapping("/tickets")
     public Iterable<?> getTickets() {
         return ticketRepository.findAll();
     }
 
+    // LIST ALL TICKETS FROM DEFINED COURSE
     @GetMapping("/tickets/{courseId}")
     public ResponseEntity getCourseTickets(@PathVariable(name = "courseId") Integer courseId) {
 
@@ -43,7 +44,8 @@ public class ApiController {
         return ResponseEntity.ok(tickets);
     }
 
-    @PostMapping("/tickets/createTicket")
+    // CREATE NEW TICKET
+    @PostMapping("/tickets/createticket")
     public ResponseEntity createTicket(@RequestBody Ticket ticket) throws URISyntaxException {
         ticketRepository.save(ticket);
         URI location = UriComponentsBuilder.newInstance()
