@@ -10,7 +10,7 @@ public class Ticket {
     @Id
     @GeneratedValue // autoincrement
     private Integer ticketId;
-    private LocalDateTime timestamp = LocalDateTime.now();
+    private LocalDateTime timestamp;
     //    private Integer courseId;
     //    private String courseName;
     private String ticketTitle;
@@ -29,14 +29,15 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(LocalDateTime timestamp, String ticketTitle, String ticketDescription, String ticketStatus, String location, User user, Course course) {
-        this.timestamp = timestamp;
-        this.ticketTitle = ticketTitle;
-        this.ticketDescription = ticketDescription;
-        this.ticketStatus = ticketStatus;
-        this.location = location;
+    public Ticket(String ticketTitle, String ticketDescription, String location) {
+        this.timestamp = LocalDateTime.now();
+        this.ticketStatus = "active";
         this.user = user;
         this.course = course;
+
+        this.ticketTitle = ticketTitle;
+        this.ticketDescription = ticketDescription;
+        this.location = location;
     }
 
     public Integer getTicketId() {

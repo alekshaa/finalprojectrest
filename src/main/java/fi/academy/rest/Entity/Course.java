@@ -19,14 +19,14 @@ public class Course {
 
     @JsonIgnore // tarkistetaan vielä tarvitseeko
     @OneToMany(mappedBy = "course")
-    private List<Ticket> courseTickets = new ArrayList<>();
+    private List<Ticket> courseTickets;
 
     public Course() {
     }
 
-    public Course(String courseName, List<Ticket> courseTickets) {
+    public Course(String courseName) {
         this.courseName = courseName;
-        this.courseTickets = courseTickets;
+        this.courseTickets  = new ArrayList<>();
     }
 
     public Integer getCourseId() {

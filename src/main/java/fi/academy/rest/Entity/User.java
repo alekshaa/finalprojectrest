@@ -1,10 +1,13 @@
 package fi.academy.rest.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -15,17 +18,17 @@ public class User {
     private String userName;
 
     @JsonIgnore // tarkistetaan vielä tarvitseeko
-    @OneToMany (mappedBy = "user")
-    private Ticket ticket;
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> userTickets;
 
     // salasanat ja muut Tonin ratkaisun mukaan
 
     public User() {
     }
 
-    public User(String userName, Ticket ticket) {
+    public User(String userName) {
         this.userName = userName;
-        this.ticket = ticket;
+        this.userTickets = new ArrayList<>();
     }
 
     public Integer getUserId() {
@@ -44,11 +47,11 @@ public class User {
         this.userName = userName;
     }
 
-    public Ticket getTicket() {
-        return ticket;
+    public List<Ticket> getUserTickets() {
+        return userTickets;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setUserTickets(List<Ticket> userTickets) {
+        this.userTickets = userTickets;
     }
 }
