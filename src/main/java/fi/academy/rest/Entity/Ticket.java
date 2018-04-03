@@ -27,6 +27,8 @@ public class Ticket {
     private Course course;
 
     public Ticket() {
+        this.timestamp = LocalDateTime.now();
+        this.ticketStatus = "active";
     }
 
     public Ticket(String ticketTitle, String ticketDescription, String location) {
