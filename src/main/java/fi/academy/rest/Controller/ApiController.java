@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,11 +35,12 @@ public class ApiController {
     }
 
     @GetMapping("/tickets/{courseId}")
-    public ResponseEntity<?> getCourseTickets(@PathVariable(name = "courseId") Integer courseId) {
-        Optional<Ticket> tickets = ticketRepository.findById(courseId);
+    public List<Ticket> getCourseTickets(@PathVariable(name = "courseId") Integer courseId) {
+        List<Ticket> tickets = ticketRepository.findByCourseId(courseId);
+        Optional<Ticket> tickets = ticketRepository.findByCourseId(courseId);
         if (!tickets.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(tickets.get());
+        return tickets;
     }
 }
