@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.net.URI;
 import java.net.URISyntaxException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -37,7 +37,7 @@ public class ApiController {
     public ResponseEntity getCourseTickets(@PathVariable(name = "courseId") Integer courseId) {
 
         List<Ticket> tickets = ticketRepository.findByCourseId(courseId);
-        if (tickets.size() ==0) {
+        if (tickets.size() == 0) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(tickets);
@@ -54,5 +54,13 @@ public class ApiController {
                 .buildAndExpand(ticket.getTicketId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    // MAKE TICKET PASSIVE AKA. REMOVE TICKET FROM ACTIVE STATE
+    @Transactional
+    @PutMapping("/tickets/setpassive/{ticketId}")
+    public ResponseEntity<?> setTicketAsPassive(@PathVariable(name = "ticketId") Integer ticketId) {
+        ticketRepository.setPassive(ticketRepository.findById(ticketId).get());
+        return ResponseEntity.ok("Ticket set as passive");
     }
 }
