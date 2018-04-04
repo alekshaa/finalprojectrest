@@ -1,5 +1,6 @@
 package fi.academy.rest.Controller;
 
+import fi.academy.rest.Entity.Course;
 import fi.academy.rest.Entity.Ticket;
 import fi.academy.rest.Repository.CourseRepository;
 import fi.academy.rest.Repository.TicketRepository;
@@ -8,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -30,6 +35,8 @@ public class TicketController {
     // LIST ALL TICKETS
     @GetMapping("/tickets")
     public Iterable<?> getTickets() {
+
+        setOldestTicketActiveToAllCourses();
         return ticketRepository.findAll();
     }
 
@@ -41,6 +48,10 @@ public class TicketController {
         if (tickets.size() == 0) {
             return ResponseEntity.notFound().build();
         }
+
+        // väliaikainen
+        setOldestTicketActiveToAllCourses(); // courseRepository.findById(2).get()
+
         return ResponseEntity.ok(tickets);
     }
 
@@ -65,4 +76,33 @@ public class TicketController {
         ticketRepository.setPassive(ticketRepository.findById(ticketId).get());
         return ResponseEntity.ok("Ticket set as passive");
     }
+
+    //set the ACTIVE status to oldest ticket in the course that is not passive
+    public void setOldestTicketActiveToAllCourses() {
+
+        // Get all courses
+        List<Course> allCourses = courseRepository.findAllToList();
+
+        for (int c = 0; c < allCourses.size(); c++) {
+            Course course = allCourses.get(c);
+
+            // Get all tickets in queue from that course
+            List<Ticket> tickets = ticketRepository.findQueueTicketsByCourseId(course.getCourseId());
+
+            // Loop trough tickets and find the latest in queue
+            if (tickets.size() > 0) {
+                Ticket latest = tickets.get(0);
+                for (int i = 0; i < tickets.size(); i++) {
+                    if (tickets.get(i).getTimestamp().isBefore(latest.getTimestamp()) || tickets.get(i).getTimestamp().isEqual(latest.getTimestamp())) {
+                        latest = tickets.get(i);
+                    }
+                }
+                // save the active status of the ticket
+                latest.setTicketStatus("active");
+                ticketRepository.save(latest);
+            }
+        }
+    }
 }
+
+
