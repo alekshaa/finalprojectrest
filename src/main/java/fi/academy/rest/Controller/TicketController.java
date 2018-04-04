@@ -40,6 +40,14 @@ public class TicketController {
         return ticketRepository.findAll();
     }
 
+    // LIST ALL TICKETS
+    @GetMapping("/tickets/notpassive")
+    public Iterable<?> getNotPassiveTickets() {
+
+        setOldestTicketActiveToAllCourses();
+        return ticketRepository.findAllNotPassiveTickets();
+    }
+
     // LIST ALL TICKETS FROM DEFINED COURSE
     @GetMapping("/tickets/{courseId}")
     public ResponseEntity getCourseTickets(@PathVariable(name = "courseId") Integer courseId) {
@@ -87,7 +95,7 @@ public class TicketController {
             Course course = allCourses.get(c);
 
             // Get all tickets in queue from that course
-            List<Ticket> tickets = ticketRepository.findQueueTicketsByCourseId(course.getCourseId());
+            List<Ticket> tickets = ticketRepository.findNotPassiveTicketsByCourseId(course.getCourseId());
 
             // Loop trough tickets and find the latest in queue
             if (tickets.size() > 0) {
