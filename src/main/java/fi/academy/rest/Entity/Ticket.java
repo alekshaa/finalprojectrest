@@ -1,6 +1,5 @@
 package fi.academy.rest.Entity;
 
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
