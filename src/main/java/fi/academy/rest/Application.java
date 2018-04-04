@@ -11,6 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
+
 @SpringBootApplication
 public class Application {
 
@@ -22,44 +24,50 @@ public class Application {
     CommandLineRunner createDummydata(CourseRepository courseRepository, TicketRepository ticketRepository, UserRepository userRepository) {
         return (args) -> {
 
-            Course course1 = new Course ("Java-kurssi");
+            Course course1 = new Course("Java-kurssi");
             courseRepository.save(course1);
-            Course course2 = new Course ("React-kurssi");
+            Course course2 = new Course("React-kurssi");
             courseRepository.save(course2);
 
-            User user1 = new User ("Samu");
+            User user1 = new User("Samu");
             userRepository.save(user1);
-            User user2 = new User ("Tommi");
+            User user2 = new User("Tommi");
             userRepository.save(user2);
 
-            Ticket ticket1 = new Ticket ("Ongelma GIT pull:in kanssa",
+            Ticket ticket1 = new Ticket("Ongelma GIT pull:in kanssa",
                     "Koitin pullata, mutta kävikin push. Pyrin korjaamaan asian force puillilla, mutta tein vahingossa mergen ja sain konfliktin aikaan.",
                     "Utö");
             ticket1.setCourse(course1);
             ticket1.setUser(user1);
             ticketRepository.save(ticket1);
 
-            ticket1 = new Ticket ("En osaa käyttää Streameja",
+            ticket1 = new Ticket("En osaa käyttää Streameja",
                     "Etsin googlesta apua, mutta en löytänyt. MInulla saattaa olla ongelma myön internetyhteyden kanssa.",
                     "Suomen Leijona");
             ticket1.setCourse(course1);
             ticket1.setUser(user2);
             ticketRepository.save(ticket1);
 
-            ticket1 = new Ticket ("Tietokoneeni ei käynnisty",
+            ticket1 = new Ticket("Tietokoneeni ei käynnisty",
                     "Koitin painaa nappulaa todella lujaa. APUA!",
                     "Suomen Leijona");
             ticket1.setCourse(course2);
             ticket1.setUser(user2);
             ticketRepository.save(ticket1);
 
-            ticket1 = new Ticket ("Minulla oli ongelma",
+            ticket1 = new Ticket("Minulla oli ongelma",
                     "Minulla on aktiivinen ongelma",
                     "Suomen Leijona");
             ticket1.setCourse(course2);
             ticket1.setUser(user1);
             ticketRepository.save(ticket1);
 
+            ticket1 = new Ticket("Vanhin tiketti",
+                    "Wanhus",
+                    "Suomen Leijona");
+            ticket1.setCourse(course2);
+            ticket1.setUser(user1);
+            ticketRepository.save(ticket1);
 
         };
     }

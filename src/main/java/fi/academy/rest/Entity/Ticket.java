@@ -1,7 +1,6 @@
 package fi.academy.rest.Entity;
-
-
 import javax.persistence.*;
+import java.security.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +14,7 @@ public class Ticket {
     //    private String courseName;
     private String ticketTitle;
     private String ticketDescription;
-    private String ticketStatus;
+    private String ticketStatus; // status options: ACTIVE = the oldest ticket in queue course, QUEUE = ticket that is not latest in course and not passive, PASSIVE ticket that is solved or removed
     private String location;
 
     @ManyToOne
@@ -26,14 +25,15 @@ public class Ticket {
     @JoinColumn(name = "course")
     private Course course;
 
+
     public Ticket() {
         this.timestamp = LocalDateTime.now();
-        this.ticketStatus = "active";
+        this.ticketStatus = "queue";
     }
 
     public Ticket(String ticketTitle, String ticketDescription, String location) {
         this.timestamp = LocalDateTime.now();
-        this.ticketStatus = "active";
+        this.ticketStatus = "queue";
         this.user = user;
         this.course = course;
 
@@ -41,6 +41,7 @@ public class Ticket {
         this.ticketDescription = ticketDescription;
         this.location = location;
     }
+
 
     public Integer getTicketId() {
         return ticketId;
@@ -105,5 +106,8 @@ public class Ticket {
     public void setCourse(Course course) {
         this.course = course;
     }
+
+
+
 }
 
