@@ -2,6 +2,7 @@ package fi.academy.rest.Controller;
 
 import fi.academy.rest.Entity.Course;
 import fi.academy.rest.Entity.Ticket;
+import fi.academy.rest.Entity.User;
 import fi.academy.rest.Repository.CourseRepository;
 import fi.academy.rest.Repository.TicketRepository;
 import fi.academy.rest.Repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.transaction.Transactional;
+import javax.xml.ws.Response;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +56,14 @@ public class TicketController {
     // CREATE NEW TICKET
     @PostMapping("/tickets/createticket")
     public ResponseEntity createTicket(@RequestBody Ticket ticket) throws URISyntaxException {
+
         ticketRepository.save(ticket);
+//        //ticket.setUser(userRepository.findById(ticket.getApuUser()));
+//        Integer apuInteger = ticket.getApuUser();
+//        User testi = userRepository.findById();
+//        ticket.setUser();
+//        ticketRepository.save(ticket);
+
         URI location = UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("localhost")
@@ -65,15 +74,21 @@ public class TicketController {
         return ResponseEntity.created(location).build();
     }
 
-    // MAKE TICKET PASSIVE AKA. REMOVE TICKET FROM ACTIVE STATE
+    // MAKE TICKET PASSIVE AKA. REMOVE TICKET FROM ACTIVE OR QUEUE STATE
     @Transactional
     @PutMapping("/tickets/setpassive/{ticketId}")
     public ResponseEntity<?> setTicketAsPassive(@PathVariable(name = "ticketId") Integer ticketId) {
+
+        // if there is no ticket, return 404
+        if (!ticketRepository.findById(ticketId).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
         ticketRepository.setPassive(ticketRepository.findById(ticketId).get());
         return ResponseEntity.ok("Ticket set as passive");
     }
 
-    //set the ACTIVE status to oldest ticket in the course that is not passive
+    //SET THE ACTIVE status to oldest ticket in the course that is not passive
     public void setOldestTicketActiveToAllCourses() {
 
         // Get all courses

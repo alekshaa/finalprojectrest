@@ -69,6 +69,12 @@ public class Application {
             ticket1.setUser(user1);
             ticketRepository.save(ticket1);
 
+            // UUSI KONSTRUKTORI
+//            ticket1 = new Ticket("Upouuso tikettti uudella konstruktorilla",
+//                    "Tähän joku pitkä ja ihana kuvaus tiketistä",
+//                    "Keilaniemen pohja", 3, 2);
+//            ticketRepository.save(ticket1);
+
         };
     }
 }
