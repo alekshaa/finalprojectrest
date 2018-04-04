@@ -29,8 +29,8 @@ public class UserController {
 
     // LIST ALL USERS
     @GetMapping("/users")
-    public Iterable<?> getUsers() {
-        return userRepository.findAll();
+    public ResponseEntity getUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
     }
 
     // CREATE NEW USER

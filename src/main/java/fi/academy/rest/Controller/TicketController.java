@@ -34,10 +34,9 @@ public class TicketController {
 
     // LIST ALL TICKETS
     @GetMapping("/tickets")
-    public Iterable<?> getTickets() {
-
+    public ResponseEntity getTickets() {
         setOldestTicketActiveToAllCourses();
-        return ticketRepository.findAll();
+        return ResponseEntity.ok(ticketRepository.findAll());
     }
 
     // LIST ALL TICKETS FROM DEFINED COURSE
@@ -48,10 +47,7 @@ public class TicketController {
         if (tickets.size() == 0) {
             return ResponseEntity.notFound().build();
         }
-
-        // väliaikainen
-        setOldestTicketActiveToAllCourses(); // courseRepository.findById(2).get()
-
+        setOldestTicketActiveToAllCourses();
         return ResponseEntity.ok(tickets);
     }
 
