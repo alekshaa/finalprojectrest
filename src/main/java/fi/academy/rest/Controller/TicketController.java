@@ -84,6 +84,13 @@ public class TicketController {
         ticketRepository.setPassive(ticketRepository.findById(ticketId).get());
         return ResponseEntity.ok("Ticket set as passive");
     }
+    // SET TICKET STATUS TO ACTIVE
+    @Transactional
+    @PutMapping("/tickets/setactive/{ticketId}")
+    public ResponseEntity<?> setTicketAsActive(@PathVariable(name = "ticketId") Integer ticketId) {
+        ticketRepository.setActive(ticketRepository.findById(ticketId).get());
+        return ResponseEntity.ok("Ticket set as active");
+    }
 
     //set the ACTIVE status to oldest ticket in the course that is not passive
     public void setOldestTicketActiveToAllCourses() {

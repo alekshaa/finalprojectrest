@@ -20,6 +20,10 @@ public interface TicketRepository extends CrudRepository<Ticket, Integer> {
     @Query("UPDATE Ticket t SET t.ticketStatus = 'passive' WHERE t = :ticket")
     public void setPassive(@Param("ticket") Ticket ticket);
 
+    @Modifying
+    @Query("UPDATE Ticket t SET t.ticketStatus = 'active' WHERE t = :ticket")
+    public void setActive(@Param("ticket") Ticket ticket);
+
 
     @Query("SELECT t FROM Ticket t WHERE t.course.id = :courseId AND t.ticketStatus ='queue' OR t.ticketStatus = 'active'")
     List<Ticket> findNotPassiveTicketsByCourseId(@Param("courseId") Integer courseId);
