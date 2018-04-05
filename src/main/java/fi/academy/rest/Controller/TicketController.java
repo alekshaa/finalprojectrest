@@ -52,15 +52,18 @@ public class TicketController {
     @GetMapping("/tickets/{courseId}")
     public ResponseEntity getCourseTickets(@PathVariable(name = "courseId") Integer courseId) {
 
-        List<Ticket> tickets = ticketRepository.findByCourseId(courseId);
-        if (tickets.size() == 0) {
-            return ResponseEntity.notFound().build();
+        if (courseRepository.findById(courseId).isPresent()) {
+            List<Ticket> tickets = ticketRepository.findByCourseId(courseId);
+            if (tickets.size() == 0) {
+                return ResponseEntity.noContent().build();
+            }
+
+            // väliaikainen
+            setOldestTicketActiveToAllCourses(); // courseRepository.findById(2).get()
+
+            return ResponseEntity.ok(tickets);
         }
-
-        // väliaikainen
-        setOldestTicketActiveToAllCourses(); // courseRepository.findById(2).get()
-
-        return ResponseEntity.ok(tickets);
+        return ResponseEntity.notFound().build();
     }
 
     // CREATE NEW TICKET
