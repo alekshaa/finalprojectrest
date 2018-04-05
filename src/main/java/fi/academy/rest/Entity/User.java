@@ -2,10 +2,7 @@ package fi.academy.rest.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +19,24 @@ public class User {
     private List<Ticket> userTickets;
 
     // salasanat ja muut Tonin ratkaisun mukaan
+    @Column(unique = true)
+    private String firebaseUserId;
+    private String userRole;
 
     public User() {
+        this.userRole = "student";
+        this.userTickets = new ArrayList<>();
     }
 
-    public User(String userName) {
-        this.userName = userName;
+//    public User(String userName) {
+//        this.userName = userName;
+//        this.userTickets = new ArrayList<>();
+//    }
+
+    //FOR FIREBASE ACCOUNTS
+    public User(String firebaseUserId) {
+        this.firebaseUserId = firebaseUserId;
+        this.userRole = "student";
         this.userTickets = new ArrayList<>();
     }
 
@@ -53,5 +62,21 @@ public class User {
 
     public void setUserTickets(List<Ticket> userTickets) {
         this.userTickets = userTickets;
+    }
+
+    public String getFirebaseUserId() {
+        return firebaseUserId;
+    }
+
+    public void setFirebaseUserId(String firebaseUserId) {
+        this.firebaseUserId = firebaseUserId;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 }
