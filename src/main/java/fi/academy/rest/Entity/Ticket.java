@@ -1,5 +1,8 @@
 package fi.academy.rest.Entity;
 
+import fi.academy.rest.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
@@ -28,6 +31,9 @@ public class Ticket {
     private Course course;
 
 
+//    @Autowired
+//    private UserRepository userRepository;
+
     public Ticket() {
         this.timestamp = LocalDateTime.now();
         this.ticketStatus = "queue";
@@ -47,7 +53,7 @@ public class Ticket {
 
     // EI TOIMI NYT
     // lopullisen konstruktorin pitäisi olla tällainen - eli ottaa kaikki tiedot vastaan
-    public Ticket(String ticketTitle, String ticketDescription, String location, String firebaseUserId) { // , Integer course
+    public Ticket(String ticketTitle, String ticketDescription, String location, User user) { // , Integer course
         this.timestamp = LocalDateTime.now();
         this.ticketStatus = "queue";
         this.user = user;

@@ -63,9 +63,19 @@ public class TicketController {
 
     // CREATE NEW TICKET
     @PostMapping("/tickets/createticket")
-    public ResponseEntity createTicket(@RequestBody Ticket ticket) throws URISyntaxException {
+//    public ResponseEntity createTicket(@RequestBody Ticket ticket) throws URISyntaxException {
+    public ResponseEntity createTicket(@RequestBody RequestWrapper requestWrapper) throws URISyntaxException {
 
+        Ticket ticket = requestWrapper.getTicket();
+        User user = requestWrapper.getUser();
+        Course course = courseRepository.findByName(requestWrapper.getCourse().getCourseName()); // hakee kurssinimellä toistaiseksi, vaihtaa ID:ksikin...
+
+        // ONGELMIA TULEE JOS KURSSIA TAI KÄYTTÄJÄÄ EI OLE LUOTU ENNEN KUN TIKETTIÄ LUODAAN!
+        ticket.setUser(user);
+        ticket.setCourse(course);
         ticketRepository.save(ticket);
+
+
 //        //ticket.setUser(userRepository.findById(ticket.getApuUser()));
 //        Integer apuInteger = ticket.getApuUser();
 //        User testi = userRepository.findById();
@@ -129,6 +139,7 @@ public class TicketController {
             }
         }
     }
-}
 
+
+}
 
