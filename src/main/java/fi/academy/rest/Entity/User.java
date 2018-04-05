@@ -9,17 +9,18 @@ import java.util.List;
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue
-    private Integer userId;
-    private String userName;
+    //@GeneratedValue
+    //private Integer userId;
+    //private String userName;
 
     @JsonIgnore // tarkistetaan vielä tarvitseeko
     @OneToMany(mappedBy = "user")
     private List<Ticket> userTickets;
 
     // salasanat ja muut Tonin ratkaisun mukaan
-    @Column(unique = true)
+
+    //@Column(unique = true)
+    @Id
     private String firebaseUserId;
     private String userRole;
 
@@ -40,21 +41,21 @@ public class User {
         this.userTickets = new ArrayList<>();
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
+//    public Integer getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Integer userId) {
+//        this.userId = userId;
+//    }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+//    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName;
+//    }
 
     public List<Ticket> getUserTickets() {
         return userTickets;
@@ -79,4 +80,6 @@ public class User {
     public void setUserRole(String userRole) {
         this.userRole = userRole;
     }
+
+
 }

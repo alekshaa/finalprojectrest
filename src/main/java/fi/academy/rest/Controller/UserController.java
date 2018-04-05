@@ -42,7 +42,7 @@ public class UserController {
                 .host("localhost")
                 .port(8080)
                 .path("api/users/{id}")
-                .buildAndExpand(user.getUserId())
+                .buildAndExpand(user.getFirebaseUserId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }

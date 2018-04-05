@@ -18,8 +18,6 @@ public class Ticket {
     private String ticketStatus; // status options: ACTIVE = the oldest ticket in queue course, QUEUE = ticket that is not latest in course and not passive, PASSIVE ticket that is solved or removed
     private String location;
 
-//    Integer apuUser;
-//    Integer apuCourse;
 
     @ManyToOne
     @JoinColumn(name = "user")
@@ -49,17 +47,15 @@ public class Ticket {
 
     // EI TOIMI NYT
     // lopullisen konstruktorin pitäisi olla tällainen - eli ottaa kaikki tiedot vastaan
-    public Ticket(String ticketTitle, String ticketDescription, String location, Integer user, Integer course) {
+    public Ticket(String ticketTitle, String ticketDescription, String location, String firebaseUserId) { // , Integer course
         this.timestamp = LocalDateTime.now();
         this.ticketStatus = "queue";
-        //this.user = user;
+        this.user = user;
         //this.course = course;
         this.ticketTitle = ticketTitle;
         this.ticketDescription = ticketDescription;
         this.location = location;
 
-        Integer apuUser = user;
-        Integer apucourse = course;
     }
 
     public Integer getTicketId() {
@@ -126,20 +122,5 @@ public class Ticket {
         this.course = course;
     }
 
-//    public Integer getApuUser() {
-//        return apuUser;
-//    }
-//
-//    public void setApuUser(Integer apuUser) {
-//        this.apuUser = apuUser;
-//    }
-//
-//    public Integer getApuCourse() {
-//        return apuCourse;
-//    }
-//
-//    public void setApuCourse(Integer apuCourse) {
-//        this.apuCourse = apuCourse;
-//    }
 }
 
