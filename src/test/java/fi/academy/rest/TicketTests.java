@@ -1,7 +1,12 @@
 package fi.academy.rest;
 
+import fi.academy.rest.Entity.Course;
 import fi.academy.rest.Entity.Ticket;
+import fi.academy.rest.Entity.User;
+import fi.academy.rest.Repository.CourseRepository;
 import fi.academy.rest.Repository.TicketRepository;
+import fi.academy.rest.Repository.UserRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +15,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 
-@TestPropertySource("classpath:application-test.properties")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TicketTests {
@@ -24,6 +26,58 @@ public class TicketTests {
     private TestRestTemplate restTemplate;
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    UserRepository userRepository;
+
+    @Before
+    public void setup() {
+            Course course1 = new Course("Java-kurssi");
+            courseRepository.save(course1);
+            Course course2 = new Course("React-kurssi");
+            courseRepository.save(course2);
+
+            User user1 = new User("Samu");
+            userRepository.save(user1);
+            User user2 = new User("Tommi");
+            userRepository.save(user2);
+
+            Ticket ticket1 = new Ticket("Ongelma GIT pull:in kanssa",
+                    "Koitin pullata, mutta kävikin push. Pyrin korjaamaan asian force puillilla, mutta tein vahingossa mergen ja sain konfliktin aikaan.",
+                    "Utö");
+            ticket1.setCourse(course1);
+            ticket1.setUser(user1);
+            ticketRepository.save(ticket1);
+
+            ticket1 = new Ticket("En osaa käyttää Streameja",
+                    "Etsin googlesta apua, mutta en löytänyt. MInulla saattaa olla ongelma myön internetyhteyden kanssa.",
+                    "Suomen Leijona");
+            ticket1.setCourse(course1);
+            ticket1.setUser(user2);
+            ticketRepository.save(ticket1);
+
+            ticket1 = new Ticket("Tietokoneeni ei käynnisty",
+                    "Koitin painaa nappulaa todella lujaa. APUA!",
+                    "Suomen Leijona");
+            ticket1.setCourse(course2);
+            ticket1.setUser(user2);
+            ticketRepository.save(ticket1);
+
+            ticket1 = new Ticket("Minulla oli ongelma",
+                    "Minulla on aktiivinen ongelma",
+                    "Suomen Leijona");
+            ticket1.setCourse(course2);
+            ticket1.setUser(user1);
+            ticketRepository.save(ticket1);
+
+            ticket1 = new Ticket("Vanhin tiketti",
+                    "Wanhus",
+                    "Suomen Leijona");
+            ticket1.setCourse(course2);
+            ticket1.setUser(user1);
+            ticketRepository.save(ticket1);
+    }
 
     @Test
     public void testListAllTickets() {
@@ -39,12 +93,14 @@ public class TicketTests {
 
     @Test
     public void testGetAllCourseTicketsFromExistingCourse() {
-        ResponseEntity<Ticket> response = restTemplate.getForEntity("/api/tickets/2",null,Ticket.class);
+        ResponseEntity<Ticket> response = restTemplate.getForEntity("/api/tickets/1",null,Ticket.class);
         assertEquals(HttpStatus.OK,response.getStatusCode());
     }
 
     @Test
     public void testGetTicketsFromNotExistingCourse() {
+//        Iterable<Ticket> tickets = courseRepository.findAll ();
+
         ResponseEntity<Ticket> response = restTemplate.getForEntity("/api/tickets/3",null,Ticket.class);
         assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
     }
@@ -62,7 +118,7 @@ public class TicketTests {
 
     @Test
     public void testChangeTicketStatusToPassive() {
-        ResponseEntity<?> response = restTemplate.exchange("/api/tickets/setpassive/5",HttpMethod.PUT,null,String.class);
+        ResponseEntity<?> response = restTemplate.exchange("/api/tickets/setpassive/6",HttpMethod.PUT,null,String.class);
         assertEquals("Ticket set as passive",response.getBody());
     }
 }
