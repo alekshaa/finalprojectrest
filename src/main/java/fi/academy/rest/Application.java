@@ -20,6 +20,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    /*
     @Bean
     CommandLineRunner createDummydata(CourseRepository courseRepository, TicketRepository ticketRepository, UserRepository userRepository) {
         return (args) -> {
@@ -71,4 +72,5 @@ public class Application {
 
         };
     }
+    */
 }
