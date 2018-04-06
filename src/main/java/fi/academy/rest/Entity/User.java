@@ -10,10 +10,6 @@ import java.util.Objects;
 @Entity
 public class User {
 
-    //@GeneratedValue
-    //private Integer userId;
-    //private String userName;
-
     @JsonIgnore // tarkistetaan vielä tarvitseeko
     @OneToMany(mappedBy = "user")
     private List<Ticket> userTickets;
@@ -25,38 +21,22 @@ public class User {
     private String firebaseUserId;
     private String userRole;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonIgnore
+    private List<Course> courses;
+
     public User() {
         this.userRole = "student";
         this.userTickets = new ArrayList<>();
     }
-
-//    public User(String userName) {
-//        this.userName = userName;
-//        this.userTickets = new ArrayList<>();
-//    }
 
     //FOR FIREBASE ACCOUNTS
     public User(String firebaseUserId) {
         this.firebaseUserId = firebaseUserId;
         this.userRole = "student";
         this.userTickets = new ArrayList<>();
+        this.courses = new ArrayList<>();
     }
-
-//    public Integer getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(Integer userId) {
-//        this.userId = userId;
-//    }
-
-//    public String getUserName() {
-//        return userName;
-//    }
-//
-//    public void setUserName(String userName) {
-//        this.userName = userName;
-//    }
 
     public List<Ticket> getUserTickets() {
         return userTickets;
@@ -80,6 +60,21 @@ public class User {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void addNewCourse(Course course) {
+        if (this.courses.contains(course)) {
+            return;
+        }
+        this.courses.add(course);
     }
 
     @Override
