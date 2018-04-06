@@ -16,6 +16,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.net.URI;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -99,8 +102,6 @@ public class TicketTests {
 
     @Test
     public void testGetTicketsFromNotExistingCourse() {
-//        Iterable<Ticket> tickets = courseRepository.findAll ();
-
         ResponseEntity<Ticket> response = restTemplate.getForEntity("/api/tickets/3",null,Ticket.class);
         assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
     }
@@ -111,9 +112,19 @@ public class TicketTests {
         ticket.setTicketTitle("Testauksen testaus");
         ticket.setTicketDescription("Yritetään saada testiä toimimaan");
         ticket.setLocation("Utö");
+        ticketRepository.save(ticket);
 
         ResponseEntity<Ticket> response = restTemplate.postForEntity("/api/tickets/createticket",ticket,Ticket.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+
+        String location = response.getHeaders().get("location").get(0);
+        String locationPolku = URI.create(location).getPath();
+        System.out.println(locationPolku);
+
+        response = restTemplate.getForEntity(locationPolku,Ticket.class);
+        assertEquals("Testauksen testaus",response.getBody().getTicketTitle());
+        assertEquals("Yritetään saada testiä toimimaan",response.getBody().getTicketDescription());
+        assertEquals("Utö",response.getBody().getLocation());
     }
 
     @Test
