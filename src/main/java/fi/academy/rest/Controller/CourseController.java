@@ -29,8 +29,8 @@ public class CourseController {
 
     // LIST ALL COURSES
     @GetMapping("/courses")
-    public Iterable<?> getCourses() {
-        return courseRepository.findAll();
+    public ResponseEntity getCourses() {
+        return ResponseEntity.ok(courseRepository.findAll());
     }
 
     // CREATE NEW COURSE

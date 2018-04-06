@@ -1,4 +1,8 @@
 package fi.academy.rest.Entity;
+
+import fi.academy.rest.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
@@ -17,6 +21,7 @@ public class Ticket {
     private String ticketStatus; // status options: ACTIVE = the oldest ticket in queue course, QUEUE = ticket that is not latest in course and not passive, PASSIVE ticket that is solved or removed
     private String location;
 
+
     @ManyToOne
     @JoinColumn(name = "user")
     private User user;
@@ -26,11 +31,15 @@ public class Ticket {
     private Course course;
 
 
+//    @Autowired
+//    private UserRepository userRepository;
+
     public Ticket() {
         this.timestamp = LocalDateTime.now();
         this.ticketStatus = "queue";
     }
 
+    // konstruktori testiä varten - ei mahdollista vielä käyttäjän ja kurssin lisäämistä
     public Ticket(String ticketTitle, String ticketDescription, String location) {
         this.timestamp = LocalDateTime.now();
         this.ticketStatus = "queue";
@@ -42,6 +51,18 @@ public class Ticket {
         this.location = location;
     }
 
+    // EI TOIMI NYT
+    // lopullisen konstruktorin pitäisi olla tällainen - eli ottaa kaikki tiedot vastaan
+    public Ticket(String ticketTitle, String ticketDescription, String location, User user) { // , Integer course
+        this.timestamp = LocalDateTime.now();
+        this.ticketStatus = "queue";
+        this.user = user;
+        //this.course = course;
+        this.ticketTitle = ticketTitle;
+        this.ticketDescription = ticketDescription;
+        this.location = location;
+
+    }
 
     public Integer getTicketId() {
         return ticketId;
@@ -106,8 +127,6 @@ public class Ticket {
     public void setCourse(Course course) {
         this.course = course;
     }
-
-
 
 }
 

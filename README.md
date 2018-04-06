@@ -7,9 +7,11 @@
 GET
 /api/tickets
 * listaa kaikki tiketit
+aktiivisen tiketin (vanhin kurssin tiketti) päivittyy tätä haettaessa
 
 /api/tickets/{courseId}
 * listaa kaikki tiketit valitulla kurssiID:llä
+aktiivisen tiketin (vanhin kurssin tiketti) päivittyy tätä haettaessa
 
 POST
 /api/tickets/createticket
@@ -24,7 +26,7 @@ PUT
 
 GET
 /api/users
-* listaa kaikki tiketit
+* listaa kaikki käyttäjät
 
 POST
 /api/users/createuser
@@ -42,23 +44,15 @@ POST
 * uuden kurssin luonti (courseName)
 
 
+<b>LUEMUT REST käyttöön:</b>
 
-<b> OMINAISUUDET TULOSSA APIIN..</b>
-
-OK tikettien listaus (kaikki, kurssi id:n perusteella)
-OK tiketin lisäys
-OK tiketin siirto pois aktiivisesta > muutos passiviksi PUT (poisto)
-
-(* tiketin muokkaus)
-* käyttäjän lisäys/muokkaus/poisto
-* kurssin lisäys/muokkaus/poisto
+MySQL: luo tietokanta komennolla: CREATE database ticketservice
+IntelJ: vaihda resources > applicatio.properties > oman MySQL:n username & password + muista git IGNORE
 
 
 <b>MIETITÄÄN NÄITÄ: </b>
 * HASH / käyttöoikeudet API:iin
 * Käyttäjän luominen MySQL:ään
 * Websocket vs. REST pollaus
+* virhekäsittelyt
 
-<b>LUEMUT REST käyttöön:</b>
-MySQL: luo tietokanta komennolla: CREATE database ticketservice
-IntelJ: vaihda resources > applicatio.properties > oman MySQL:n username & password + muista git IGNORE

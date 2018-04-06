@@ -29,8 +29,8 @@ public class UserController {
 
     // LIST ALL USERS
     @GetMapping("/users")
-    public Iterable<?> getUsers() {
-        return userRepository.findAll();
+    public ResponseEntity getUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
     }
 
     // CREATE NEW USER
@@ -42,7 +42,7 @@ public class UserController {
                 .host("localhost")
                 .port(8080)
                 .path("api/users/{id}")
-                .buildAndExpand(user.getUserId())
+                .buildAndExpand(user.getFirebaseUserId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
