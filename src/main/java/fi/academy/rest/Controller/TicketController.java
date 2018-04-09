@@ -64,6 +64,25 @@ public class TicketController {
 
     }
 
+    // LIST ALL TICKETS FROM DEFINED COURSENAME
+    @GetMapping("/tickets/course/{courseName}")
+    public ResponseEntity getCourseTickets(@PathVariable(name = "courseName") String courseName) {
+
+//        if (courseRepository.findBy(courseName)) {
+            List<Ticket> tickets = ticketRepository.findByCourseName(courseName);
+            if (tickets.size() == 0) {
+                return ResponseEntity.noContent().build();
+            }
+
+            // väliaikainen
+            setOldestTicketActiveToAllCourses(); // courseRepository.findById(2).get()
+
+            return ResponseEntity.ok(tickets);
+//        }
+//        return ResponseEntity.notFound().build();
+
+    }
+
     // CREATE NEW TICKET
     @PostMapping("/tickets/createticket")
 //    public ResponseEntity createTicket(@RequestBody Ticket ticket) throws URISyntaxException {

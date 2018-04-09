@@ -13,6 +13,9 @@ public interface TicketRepository extends CrudRepository<Ticket, Integer> {
     @Query("SELECT t FROM Ticket t WHERE t.course.id = :courseId")
     List<Ticket> findByCourseId(@Param("courseId") Integer courseId);
 
+    @Query("SELECT t FROM Ticket t WHERE t.course.courseName = :courseName")
+    List<Ticket> findByCourseName(@Param("courseName") String courseName);
+
     @Query("SELECT t FROM Ticket t WHERE t.ticketStatus ='queue' OR t.ticketStatus = 'active'")
     List<Ticket> findAllNotPassiveTickets();
 
