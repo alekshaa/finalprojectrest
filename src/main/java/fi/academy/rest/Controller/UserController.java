@@ -66,4 +66,10 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    // GET USER BY ID
+    @GetMapping("/users/{userId}")
+    public ResponseEntity getUsersById(@PathVariable (name = "userId") String userId) {
+        return ResponseEntity.ok(userRepository.findById(userId));
+    }
 }

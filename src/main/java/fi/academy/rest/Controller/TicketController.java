@@ -14,11 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.transaction.Transactional;
-import javax.xml.ws.Response;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -65,6 +61,25 @@ public class TicketController {
             return ResponseEntity.ok(tickets);
         }
         return ResponseEntity.notFound().build();
+
+    }
+
+    // LIST ALL TICKETS FROM DEFINED COURSENAME
+    @GetMapping("/tickets/course/{courseName}")
+    public ResponseEntity getCourseTickets(@PathVariable(name = "courseName") String courseName) {
+
+//        if (courseRepository.findBy(courseName)) {
+            List<Ticket> tickets = ticketRepository.findByCourseName(courseName);
+            if (tickets.size() == 0) {
+                return ResponseEntity.noContent().build();
+            }
+
+            // väliaikainen
+            setOldestTicketActiveToAllCourses(); // courseRepository.findById(2).get()
+
+            return ResponseEntity.ok(tickets);
+//        }
+//        return ResponseEntity.notFound().build();
 
     }
 

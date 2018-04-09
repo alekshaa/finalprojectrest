@@ -41,9 +41,9 @@ public class TicketTests {
             Course course2 = new Course("React-kurssi");
             courseRepository.save(course2);
 
-            User user1 = new User("Samu");
+            User user1 = new User("feikkiid1","Samu");
             userRepository.save(user1);
-            User user2 = new User("Tommi");
+            User user2 = new User("feikkiid2","Tommi");
             userRepository.save(user2);
 
             Ticket ticket1 = new Ticket("Ongelma GIT pull:in kanssa",

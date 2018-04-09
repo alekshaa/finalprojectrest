@@ -20,6 +20,7 @@ public class User {
     @Id
     private String firebaseUserId;
     private String userRole;
+    private String username;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_courses",
@@ -35,11 +36,12 @@ public class User {
     }
 
     //FOR FIREBASE ACCOUNTS
-    public User(String firebaseUserId) {
+    public User(String firebaseUserId, String username) {
         this.firebaseUserId = firebaseUserId;
         this.userRole = "student";
         this.userTickets = new ArrayList<>();
         this.courses = new ArrayList<>();
+        this.username = username;
     }
 
     public List<Ticket> getUserTickets() {
@@ -94,4 +96,13 @@ public class User {
     public int hashCode() {
         return Objects.hash(firebaseUserId);
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
+
