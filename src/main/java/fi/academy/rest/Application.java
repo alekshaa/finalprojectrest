@@ -31,9 +31,9 @@ public class Application {
 
             User user1 = new User("Samu");
             user1.addNewCourse(course1);
-            user1.addNewCourse(course2);
-            user1.addNewCourse(course1);
             userRepository.save(user1);
+//            user1.addNewCourse(course2);
+//            userRepository.save(user1);
             User user2 = new User("Tommi");
             userRepository.save(user2);
 

@@ -21,8 +21,12 @@ public class User {
     private String firebaseUserId;
     private String userRole;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_courses",
+            joinColumns = @JoinColumn(name = "user_firebase_user_id",
+                    referencedColumnName = "firebaseUserId"),
+            inverseJoinColumns = @JoinColumn(name = "courses_course_id",
+                    referencedColumnName = "courseId"))
     private List<Course> courses;
 
     public User() {
@@ -75,6 +79,7 @@ public class User {
             return;
         }
         this.courses.add(course);
+        System.out.println(this.courses.get(0));
     }
 
     @Override

@@ -18,6 +18,10 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Ticket> courseTickets;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "courses")
+    private List<User> user;
+
     public Course() {
     }
 
@@ -48,5 +52,13 @@ public class Course {
 
     public void setCourseTickets(List<Ticket> courseTickets) {
         this.courseTickets = courseTickets;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 }
