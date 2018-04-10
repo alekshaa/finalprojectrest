@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -36,6 +37,13 @@ public class UserController {
     // CREATE NEW USER
     @PostMapping("/users/createuser")
     public ResponseEntity createUser(@RequestBody User user) throws URISyntaxException {
+
+        // if there allready is a user - do nothing
+        Optional<User> isThereAUser = userRepository.findById(user.getFirebaseUserId());
+        if (isThereAUser.isPresent()) {
+            return ResponseEntity.ok("User allready exists");
+        }
+
         userRepository.save(user);
         URI location = UriComponentsBuilder.newInstance()
                 .scheme("http")
@@ -49,7 +57,7 @@ public class UserController {
 
     // GET USER BY ID
     @GetMapping("/users/{userId}")
-    public ResponseEntity getUsersById(@PathVariable (name = "userId") String userId) {
+    public ResponseEntity getUsersById(@PathVariable(name = "userId") String userId) {
         return ResponseEntity.ok(userRepository.findById(userId));
     }
 }
