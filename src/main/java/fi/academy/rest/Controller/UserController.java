@@ -79,4 +79,30 @@ public class UserController {
     public ResponseEntity getUsersById(@PathVariable(name = "userId") String userId) {
         return ResponseEntity.ok(userRepository.findById(userId));
     }
+
+    // TOGGLE USER ROLE
+    @PutMapping("/users/togglerole/{userId}")
+    public ResponseEntity toggleUserRole(@PathVariable(name = "userId") String userId) {
+
+        // if there is no user return not found
+        if (!userRepository.findById(userId).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // else toggle user role
+        User user = userRepository.findById(userId).get();
+
+        if (user.getUserRole().equals("student")) {
+            user.setUserRole("teacher");
+            System.out.println("Vaihdettu teacheriksi");
+        } else {
+            user.setUserRole("student");
+            System.out.println("Vaihdettu studentiksi");
+
+        }
+        userRepository.save(user);
+
+        return ResponseEntity.ok("User role changed");
+    }
+
 }
