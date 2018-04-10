@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -59,7 +60,7 @@ public class UserController {
     }
 
     //ADD NEW COURSE TO USER
-    @PutMapping("/users/addcourse/{user}")
+    @RequestMapping("/users/addcourse/{user}")
     public ResponseEntity addCourse(@PathVariable(name = "user") String user, @RequestBody Course course) {
         if (courseRepository.findByName(course.getCourseName()) != null) {
             Course c = courseRepository.findByName(course.getCourseName());
@@ -69,7 +70,8 @@ public class UserController {
             u.addNewCourse(c);
             System.out.println(u.getCourses().get(0).getCourseName());
             userRepository.save(u);
-            return ResponseEntity.ok("1 new course");
+            List<Ticket> tickets = ticketRepository.findNotPassiveTicketsByCourseId(c.getCourseId());
+            return ResponseEntity.ok(tickets);
         }
         return ResponseEntity.notFound().build();
     }
