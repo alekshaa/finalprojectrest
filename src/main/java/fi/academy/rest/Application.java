@@ -20,7 +20,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    
+
 //    @Bean
 //    CommandLineRunner createDummydata(CourseRepository courseRepository, TicketRepository ticketRepository, UserRepository userRepository) {
 //        return (args) -> {
@@ -33,7 +33,6 @@ public class Application {
 //            User user1 = new User("feikkiid1","Samu");
 //            user1.addNewCourse(course1);
 //            user1.addNewCourse(course2);
-//            user1.addNewCourse(course1);
 //            userRepository.save(user1);
 //            User user2 = new User("feikkiid2","Tommi");
 //            userRepository.save(user2);
