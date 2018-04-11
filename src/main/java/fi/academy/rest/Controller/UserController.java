@@ -107,4 +107,19 @@ public class UserController {
         return ResponseEntity.ok("User role changed");
     }
 
+    // DELETE USER BY ID
+    @DeleteMapping("/users/deleteuser/{userId}")
+    public ResponseEntity deleteUser(@PathVariable(name = "userId") String userId) {
+
+        // if there is no user return not found
+        if (!userRepository.findById(userId).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User user = userRepository.findById(userId).get();
+        userRepository.delete(user);
+
+        return ResponseEntity.ok(userRepository.findById(userId));
+    }
+
 }
