@@ -76,6 +76,24 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
+    //REMOVE COURSE FROM USER
+    @DeleteMapping("/users/removecourse/{user}")
+    public ResponseEntity removeCourse(@PathVariable(name = "user") String user, @RequestBody Course course) {
+
+        if (courseRepository.findByName(course.getCourseName()) != null) {
+            Course c = courseRepository.findByName(course.getCourseName());
+            User u = userRepository.findById(user).get();
+
+            u.removeCourse(c);
+            userRepository.save(u);
+
+            //List<Ticket> tickets = ticketRepository.findNotPassiveTicketsByCourseId(c.getCourseId());
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     // GET USER BY ID
     @GetMapping("/users/{userId}")
     public ResponseEntity getUsersById(@PathVariable(name = "userId") String userId) {
