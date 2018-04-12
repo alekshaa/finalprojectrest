@@ -84,6 +84,13 @@ public class User {
         System.out.println(this.courses.get(0));
     }
 
+    public void removeCourse(Course course) {
+        if (!this.courses.contains(course)) { // jo kurssi ei ole
+            return;
+        }
+        this.courses.remove(course);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

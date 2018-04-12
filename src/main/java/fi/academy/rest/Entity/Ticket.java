@@ -17,6 +17,7 @@ public class Ticket {
     //    private Integer courseId;
     //    private String courseName;
     private String ticketTitle;
+    @Lob
     private String ticketDescription;
     private String ticketStatus; // status options: ACTIVE = the oldest ticket in queue course, QUEUE = ticket that is not latest in course and not passive, PASSIVE ticket that is solved or removed
     private String location;

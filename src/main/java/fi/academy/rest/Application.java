@@ -29,11 +29,14 @@ public class Application {
 //            Course course2 = new Course("React-kurssi");
 //            courseRepository.save(course2);
 //
-//            User user1 = new User("feikkiid1","Samu");
+//            User user1 = new User("uediACnXUXezVoHjJIrpzqXoQfU2","admin");
 //            user1.addNewCourse(course1);
 //            user1.addNewCourse(course2);
+//            user1.setUserRole("teacher");
 //            userRepository.save(user1);
-//            User user2 = new User("feikkiid2","Tommi");
+//
+//
+//            User user2 = new User("s6cq6NBFojdUnQWL44sqL9709c02","Tommi");
 //            userRepository.save(user2);
 //
 //            Ticket ticket1 = new Ticket("Ongelma GIT pull:in kanssa",
