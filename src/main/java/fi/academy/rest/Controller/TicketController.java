@@ -72,13 +72,12 @@ public class TicketController {
             List<Ticket> tickets = ticketRepository.findByCourseName(courseName);
             if (tickets.size() == 0) {
                 return ResponseEntity.noContent().build();
-            }
+            }else{
 
-            // väliaikainen
             setOldestTicketActiveToAllCourses(); // courseRepository.findById(2).get()
 
             return ResponseEntity.ok(tickets);
-//        }
+        }
 //        return ResponseEntity.notFound().build();
 
     }

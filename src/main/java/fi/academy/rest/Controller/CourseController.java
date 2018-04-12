@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -36,15 +37,18 @@ public class CourseController {
     // CREATE NEW COURSE
     @PostMapping("/courses/createcourse")
     public ResponseEntity createTicket(@RequestBody Course course) throws URISyntaxException {
-        courseRepository.save(course);
-        URI location = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8080)
-                .path("api/courses/{id}")
-                .buildAndExpand(course.getCourseId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        if (courseRepository.findByName(course.getCourseName()) == null) {
+            courseRepository.save(course);
+            URI location = UriComponentsBuilder.newInstance()
+                    .scheme("http")
+                    .host("localhost")
+                    .port(8080)
+                    .path("api/courses/{id}")
+                    .buildAndExpand(course.getCourseId())
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        }
+        return ResponseEntity.ok("This course already exists");
     }
 
 }
