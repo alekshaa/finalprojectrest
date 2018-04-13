@@ -41,6 +41,17 @@ public class Ticket {
     }
 
     // konstruktori testiä varten - ei mahdollista vielä käyttäjän ja kurssin lisäämistä
+    public Ticket(String ticketTitle, String ticketDescription, String location, LocalDateTime localDateTime) {
+        this.timestamp = localDateTime;
+        this.ticketStatus = "queue";
+        this.user = user;
+        this.course = course;
+
+        this.ticketTitle = ticketTitle;
+        this.ticketDescription = ticketDescription;
+        this.location = location;
+    }
+
     public Ticket(String ticketTitle, String ticketDescription, String location) {
         this.timestamp = LocalDateTime.now();
         this.ticketStatus = "queue";
