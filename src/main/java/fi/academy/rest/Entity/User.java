@@ -22,7 +22,7 @@ public class User {
     private String userRole;
     private String username;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_courses",
             joinColumns = @JoinColumn(name = "user_firebase_user_id",
                     referencedColumnName = "firebaseUserId"),
